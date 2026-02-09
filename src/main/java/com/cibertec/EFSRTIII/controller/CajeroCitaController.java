@@ -58,7 +58,6 @@ public class CajeroCitaController {
 		return "cajero/buscarCitas";	
 	}
 	
-	
 	//BUSCAR POR EL ESTADO
 	@GetMapping("/buscar/estado")
 	public String buscarPorEstado(@RequestParam("estado")String estadoStr, Model model) {
