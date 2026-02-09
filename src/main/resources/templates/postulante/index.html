@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layoutRRHH}">
+
+<head>
+	<title>Lista de Postulantes</title>
+
+	<!-- Bootstrap & Bootstrap Icons -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+	<!-- DataTables CSS para la paginacion -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+	<!-- hoja de estilos personalizada -->
+	<link rel="stylesheet" href="/css/index-postulante.css">
+</head>
+<body>
+	<div layout:fragment="content">
+		<div class="container py-4 rounded-3">
+			<h1 class="text-center text-dark fw-bold mb-4">Lista de Postulantes</h1>
+			<!-- FILTRO Y BOTÓN AGREGAR -->
+			<div class="d-flex justify-content-between align-items-center mb-3">
+				<div class="d-flex">
+					<select id="filtroTipo" class="form-select me-2" style="width: 180px;">
+						<option value="apellido">Apellidos</option>
+						<option value="documento">N° Documento</option>
+					</select>
+					<input type="text" id="buscarInput" class="form-control" placeholder="Buscar..." />
+				</div>
+
+				<a th:href="@{/postulante/registro}" class="btn btn-success">
+					<i class="bi bi-plus-circle me-1"></i> Agregar
+				</a>
+			</div>
+
+			<!-- TABLA -->
+			<div class="table-responsive rounded">
+				<table id="tablaPostulantes" class="table table-hover table-bordered align-middle text-center">
+					<thead class="table-primary">
+						<tr>
+							<th>ID</th>
+							<th>Nombres</th>
+							<th>Apellidos</th>
+							<th>Nro Documento</th>
+							<th>Celular</th>
+							<th>Dirección</th>
+							<th>Estado</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="postulante : ${listarPostulante}">
+							<td th:text="${postulante.idPostulante}"></td>
+							<td th:text="${postulante.nombres}"></td>
+							<td th:text="${postulante.apellidos}"></td>
+							<td th:text="${postulante.numeroDocumento}"></td>
+							<td th:text="${postulante.celular}"></td>
+							<td th:text="${postulante.direccion}"></td>
+							<td th:text="${postulante.estado}"></td>
+							<td>
+								<div class="d-flex justify-content-center gap-2">
+									<a th:href="@{/postulante/detalle/{id}(id=${postulante.idPostulante})}"
+										class="btn btn-outline-secondary btn-sm" title="Ver">
+										<i class="bi bi-eye"></i>
+									</a>
+									<a th:href="@{/postulante/editar/{id}(id=${postulante.idPostulante})}"
+										class="btn btn-outline-primary btn-sm" title="Editar">
+										<i class="bi bi-pencil"></i>
+									</a>
+									<a th:href="@{/observaciones/registrar/{id}(id=${postulante.idPostulante})}" 
+									   class="btn btn-outline-warning btn-sm" title="Observaciones">
+									    <i class="bi bi-journal-text"></i>
+									</a>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+		</div>
+		<div style="height: 60px;"></div>
+	</div>
+
+	<!-- SCRIPTS -->
+	<div layout:fragment="scripts">
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+		<!-- DataTables -->
+		<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+		<!-- SweetAlert2 -->
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+		<!-- Éxito mensaje -->
+		<script th:if="${exito != null}" th:inline="javascript">
+			let mensaje = /*[[${exito}]]*/ 'Cambios guardados correctamente';
+			Swal.fire({
+				icon: 'success',
+				title: '¡Éxito!',
+				text: mensaje,
+				showConfirmButton: false,
+				timer: 2000
+			});
+		</script>
+
+		<!-- Script específico de la vista -->
+		<script src="/js/index-postulante.js"></script>
+	</div>
+</body>
+</html>

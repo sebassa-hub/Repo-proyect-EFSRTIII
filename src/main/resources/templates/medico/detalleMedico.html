@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layoutSecretaria}">
+<head>
+    <title>Detalle del Médico</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="container mt-5">
+        <div class="card shadow-sm rounded-4 border-0">
+            <div class="card-header bg-black text-white text-center rounded-top-4">
+                <h4 class="mb-0"><i class="bi bi-person-badge-fill me-2"></i>Ficha del Médico</h4>
+            </div>
+
+            <div class="card-body px-5 py-4">
+                <!-- Datos Personales -->
+                <h5 class="text-secondary border-bottom pb-2 mb-3"><i class="bi bi-person-fill"></i> Datos Personales</h5>
+                <div class="row mb-3">
+                    <div class="col-md-4"><strong>ID Médico:</strong> <span th:text="${medico.idMedico}"></span></div>
+                    <div class="col-md-4"><strong>Nombres:</strong> <span th:text="${medico.nombres}"></span></div>
+                    <div class="col-md-4"><strong>Apellidos:</strong> <span th:text="${medico.apellidos}"></span></div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4"><strong>Género:</strong> <span th:text="${medico.genero}"></span></div>
+                    <div class="col-md-4"><strong>Edad:</strong> <span th:text="${medico.edad}"></span></div>
+                    <div class="col-md-4"><strong>Fecha de Nacimiento:</strong> <span th:text="${#dates.format(medico.fechaNacimiento, 'dd/MM/yyyy')}"></span></div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4"><strong>Nacionalidad:</strong> <span th:text="${medico.nacionalidad}"></span></div>
+                    <div class="col-md-4"><strong>Especialidad:</strong> <span th:text="${medico.especialidad.especialidad}"></span></div>
+                    <div class="col-md-4"><strong>Estado:</strong> <span th:text="${medico.estado}"></span></div>
+                </div>
+
+                <!-- Contacto y Documento -->
+                <h5 class="text-secondary border-bottom pb-2 mb-3 mt-4"><i class="bi bi-card-list"></i> Documento & Contacto</h5>
+                <div class="row mb-3">
+                    <div class="col-md-4"><strong>Tipo Documento:</strong> <span th:text="${medico.tipoDocumento}"></span></div>
+                    <div class="col-md-4"><strong>N° Documento:</strong> <span th:text="${medico.numeroDocumento}"></span></div>
+                    <div class="col-md-4"><strong>Celular:</strong> <span th:text="${medico.celular}"></span></div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4"><strong>Correo:</strong> <span th:text="${medico.correo}"></span></div>
+                    <div class="col-md-8"><strong>Dirección:</strong> <span th:text="${medico.direccion}"></span></div>
+                </div>
+
+                <!-- Información Profesional -->
+                <h5 class="text-secondary border-bottom pb-2 mb-3 mt-4"><i class="bi bi-briefcase-fill"></i> Información Profesional</h5>
+                <div class="row mb-3">
+                    <div class="col-md-4"><strong>N° Colegiatura:</strong> <span th:text="${medico.numeroColegiatura}"></span></div>
+                    <div class="col-md-4"><strong>Turno:</strong> <span th:text="${medico.turno}"></span></div>
+                </div>
+
+                <!-- Registro -->
+                <h5 class="text-secondary border-bottom pb-2 mb-3 mt-4"><i class="bi bi-clock-history"></i> Registro</h5>
+                <div class="row mb-3">
+                    <div class="col-md-4"><strong>Fecha de Registro:</strong>
+                        <span th:text="${#dates.format(medico.fechaRegistro, 'dd/MM/yyyy')}"></span>
+                    </div>
+                </div>
+
+                <!-- Botón volver -->
+				<div class="text-center mt-4">
+				    <a th:href="@{/medico/listar}" class="btn btn-dark text-white">
+				        <i class="bi bi-arrow-left-circle"></i> Volver a la Lista
+				    </a>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

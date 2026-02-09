@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Fragmento Modal - Registrar Médico</title>
+</head>
+
+<body>
+
+	<!-- FRAGMENTO MODAL REGISTRO MÉDICO -->
+	<div th:fragment="modalRegistrarMedico">
+		<div class="modal fade" id="modalRegistrarMedico" tabindex="-1" aria-labelledby="modalRegistrarLabel"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+					<form th:action="@{/medico/guardar}" method="post" th:object="${medico}">
+						<div class="modal-header py-2 justify-content-center border-0">
+							<h5 class="modal-title m-0 text-center" id="modalRegistrarLabel">
+								<i class="bi bi-plus-circle me-1"></i> Registrar Médico
+							</h5>
+						</div>
+
+						<div class="modal-body px-4 py-3">
+							<!-- Fila 1 -->
+							<div class="row g-3 mt-2">
+								<div class="col-md-6">
+									<label class="form-label">Tipo Documento</label>
+									<select class="form-select" th:field="*{tipoDocumento}" required>
+										<option value="">Seleccione</option>
+										<option value="DNI">DNI</option>
+										<option value="CE">CE</option>
+										<option value="PASAPORTE">PASAPORTE</option>
+									</select>
+								</div>
+								<div class="col-md-6">
+									<label class="form-label">N° Documento</label>
+									<input type="text" class="form-control" th:field="*{numeroDocumento}" required>
+								</div>
+							</div>
+
+							<!-- Fila 2 -->
+							<div class="row g-3 mt-2">
+								<div class="col-md-5">
+									<label class="form-label">Nombres</label>
+									<input type="text" class="form-control" th:field="*{nombres}" required>
+								</div>
+								<div class="col-md-7">
+									<label class="form-label">Apellidos</label>
+									<input type="text" class="form-control" th:field="*{apellidos}" required>
+								</div>
+							</div>
+
+							<!-- Fila 3 -->
+							<div class="row g-3 mt-2">
+								<div class="col-md-4">
+									<label class="form-label">Celular</label>
+									<input type="text" class="form-control" th:field="*{celular}" required>
+								</div>
+								<div class="col-md-8">
+									<label class="form-label">Correo</label>
+									<input type="email" class="form-control" th:field="*{correo}" required>
+								</div>
+							</div>
+
+							<!-- Fila 4 -->
+							<div class="row g-3 mt-2">
+								<div class="col-md-12">
+									<label class="form-label">Dirección</label>
+									<input type="text" class="form-control" th:field="*{direccion}" required>
+								</div>
+
+							</div>
+
+							<!-- Fila 5 -->
+							<div class="row g-3 mt-2">
+								<div class="col-md-7">
+									<label class="form-label">Fecha de Nacimiento</label>
+									<input type="date" class="form-control" th:field="*{fechaNacimiento}" required>
+								</div>
+								<div class="col-md-5">
+									<label class="form-label">Nacionalidad</label>
+									<input type="text" class="form-control" th:field="*{nacionalidad}" required>
+								</div>
+							</div>
+
+							<!-- Fila 6 -->
+							<div class="row g-3 mt-2">
+								
+									<div class="col-md-5">
+										<label class="form-label">Turno</label>
+										<select class="form-select" th:field="*{turno}" required>
+											<option value="">Seleccione</option>
+											<option value="mañana">Mañana</option>
+											<option value="tarde">Tarde</option>
+											<option value="noche">Noche</option>
+										</select>
+									</div>
+									<div class="col-md-7">
+										<label class="form-label">N° Colegiatura</label>
+										<input type="text" class="form-control" th:field="*{numeroColegiatura}"
+											required>
+									</div>
+								</div>
+
+								<!-- Fila 7 -->
+
+								<div class="row g-3 mt-2">
+									<div class="col-md-5">
+										<label class="form-label">Género</label>
+										<select class="form-select" th:field="*{genero}" required>
+											<option value="">Seleccione</option>
+											<option value="M">Masculino</option>
+											<option value="F">Femenino</option>
+										</select>
+									</div>
+									<div class="col-md-7">
+									<label class="form-label">Especialidad</label>
+									<select class="form-select" th:field="*{especialidad.idEspecialidad}" required>
+										<option value="">Seleccione</option>
+										<option th:each="esp : ${listaEspecialidades}" th:value="${esp.idEspecialidad}"
+											th:text="${esp.especialidad}">
+										</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal-footer px-4 justify-content-center">
+							<button type="submit" class="btn btn-success">
+								<i class="bi bi-save"></i> Guardar
+							</button>
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

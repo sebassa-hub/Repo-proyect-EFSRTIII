@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layoutSecretaria}">
+
+<head>
+    <title>Detalle Especialidad</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4 d-flex justify-content-center">
+        <div class="card shadow-sm border-0 rounded-4" style="max-width: 400px; width: 100%;">
+            <div class="card-header bg-black text-white text-center py-2 rounded-top-4">
+                <h6 class="mb-0"><i class="bi bi-bookmark-star me-2"></i> Detalle de Especialidad</h6>
+            </div>
+            <div class="card-body px-4 py-3 small">
+                <p><strong>ID:</strong> <span th:text="${especialidad.idEspecialidad}"></span></p>
+                <p><strong>Especialidad:</strong> <span th:text="${especialidad.especialidad}"></span></p>
+                <p><strong>Monto:</strong> S/. <span th:text="${especialidad.montoPorEspecialidad}"></span></p>
+                <div class="text-center mt-3">
+                    <a th:href="@{/especialidad/listar}" class="btn btn-sm btn-dark">
+                        <i class="bi bi-arrow-left-circle"></i> Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

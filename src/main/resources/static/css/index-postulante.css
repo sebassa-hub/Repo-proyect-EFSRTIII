@@ -1,0 +1,43 @@
+/* 
+ * OCULTA EL BUSCADOR GLOBAL QUE MUESTRA DATATABLES POR DEFECTO,
+ * YA QUE SE ESTÁ UTILIZANDO UN CAMPO PERSONALIZADO DE BÚSQUEDA.
+ */
+div.dataTables_filter {
+    display: none;
+}
+
+/* 
+ * POSICIONA FIJAMENTE LA INFORMACIÓN DE PÁGINA (ej. "Mostrando 1 a 6 de 30") 
+ * Y LOS CONTROLES DE PAGINACIÓN AL PIE DE LA VISTA, 
+ * DE MANERA QUE SIEMPRE SEAN VISIBLES AL CAMBIAR DE PÁGINA.
+ */
+div.dataTables_wrapper .dataTables_paginate,
+div.dataTables_wrapper .dataTables_info {
+    position: fixed;
+    bottom: 10px;
+    background-color: white;
+    padding: 8px 16px;
+    z-index: 100; /* Asegura que esté por encima de otros elementos */
+}
+
+/* 
+ * POSICIONA LOS CONTROLES DE PAGINACIÓN A LA DERECHA DEL FOOTER FIJO.
+ */
+div.dataTables_wrapper .dataTables_paginate {
+right: 6.5%; /* En lugar de un valor fijo en px */
+}
+
+/* 
+ * POSICIONA LA INFORMACIÓN DE REGISTROS A LA IZQUIERDA DEL FOOTER FIJO.
+ */
+div.dataTables_wrapper .dataTables_info {
+    left: 6.5%;
+}
+
+/* 
+ * AGREGA ESPACIO EXTRA AL FINAL DE LA TABLA PARA QUE 
+ * LOS CONTROLES FIJOS DE PÁGINA NO SE SUPERPONGAN SOBRE LOS DATOS.
+ */
+.table-responsive {
+    margin-bottom: 80px; /* Altura suficiente para que se vea todo bien */
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layoutSecretaria}">
+
+<head>
+	<title>Lista de Médicos</title>
+
+	<!-- Bootstrap & Bootstrap Icons -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+	<!-- DataTables CSS -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+	<link rel="stylesheet" href="/css/index-medico.css">
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="container py-4 rounded-3">
+			<h1 class="text-center text-dark fw-bold mb-4">Lista de Médicos</h1>
+
+			<!-- FILTRO Y BOTÓN AGREGAR -->
+			<div class="d-flex justify-content-between align-items-center mb-3">
+				<div class="d-flex">
+					<select id="filtroTipo" class="form-select me-2" style="width: 180px;">
+						<option value="apellido">Apellidos</option>
+						<option value="documento">N° Documento</option>
+					</select>
+					<input type="text" id="buscarInput" class="form-control" placeholder="Buscar..." />
+				</div>
+
+				<a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalRegistrarMedico">
+					<i class="bi bi-plus-circle me-1"></i> Agregar
+				</a>
+			</div>
+
+			<!-- TABLA -->
+			<div class="table-responsive rounded">
+				<table id="tablaMedicos" class="table table-hover table-bordered align-middle text-center">
+					<thead class="table-primary">
+						<tr>
+							<th>ID</th>
+							<th>Nombre Completo</th>
+							<th>N° Documento</th>
+							<th>Especialidad</th>
+							<th>Celular</th>
+							<th>Turno</th>
+							<th>Estado</th>
+							<th>Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="medico : ${listaMedicos}">
+							<td th:text="${medico.idMedico}"></td>
+							<td th:text="${medico.nombres + ' ' + medico.apellidos}"></td>
+							<td th:text="${medico.numeroDocumento}"></td>
+							<td th:text="${medico.especialidad != null ? medico.especialidad.especialidad : 'No asignada'}"></td>
+							<td th:text="${medico.celular}"></td>
+							<td th:text="${medico.turno}"></td>
+							<td th:text="${medico.estado}"></td>
+							<td>
+								<div class="d-flex justify-content-center gap-2">
+									<a th:href="@{/medico/detalle/{id}(id=${medico.idMedico})}"
+										class="btn btn-outline-secondary btn-sm" title="Ver">
+										<i class="bi bi-eye"></i>
+									</a>
+									<a th:href="@{/medico/editar/{id}(id=${medico.idMedico})}"
+										class="btn btn-outline-primary btn-sm" title="Editar">
+										<i class="bi bi-pencil"></i>
+									</a>
+									<form th:action="@{/medico/cambiarEstado/{id}(id=${medico.idMedico})}"
+									      method="post" style="display:inline;">
+									    <button type="submit" class="btn btn-sm"
+									            th:classappend="${medico.estado == 'activo'} ? 'btn-success' : 'btn-danger'"
+									            th:title="${medico.estado == 'activo'} ? 'Desactivar' : 'Activar'">
+									        <i class="bi" th:class="${medico.estado == 'activo'} ? 'bi-toggle-on' : 'bi-toggle-off'"></i>
+									    </button>
+									</form>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<!-- Modal importado desde registrarPaciente.html -->
+			<div th:replace="medico/registrarMedico :: modalRegistrarMedico"></div>
+
+			<div style="height: 60px;"></div>
+		</div>
+	</div> <!-- cierre del layout:fragment -->
+
+	<!-- SCRIPTS -->
+	<div layout:fragment="scripts">
+		<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+		<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+		<!-- ✅ Alerta de éxito -->
+		<script th:if="${exito != null}" th:inline="javascript">
+			let mensaje = /*[[${exito}]]*/ 'Registro exitoso';
+			Swal.fire({
+				icon: 'success',
+				title: '¡Éxito!',
+				text: mensaje,
+				showConfirmButton: false,
+				timer: 2000
+			});
+		</script>
+
+		<!-- ❌ Alerta de error -->
+		<script th:if="${error != null}" th:inline="javascript">
+			let mensajeError = /*[[${error}]]*/ 'Error al registrar';
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: mensajeError,
+				showConfirmButton: true
+			});
+		</script>
+
+		<script src="/js/index-medico.js"></script>
+	</div>
+
+	<!-- Bootstrap JS para que funcionen los modales -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

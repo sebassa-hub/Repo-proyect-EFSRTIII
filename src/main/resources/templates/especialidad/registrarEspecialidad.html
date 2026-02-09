@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Modal - Registrar Especialidad</title>
+</head>
+<body>
+
+<div th:fragment="modalRegistrarEspecialidad">
+    <div class="modal fade" id="modalRegistrarEspecialidad" tabindex="-1" aria-labelledby="modalEspecialidadLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content">
+
+                <form th:action="@{/especialidad/guardarEsp}" method="post" th:object="${especialidad}">
+                    <div class="modal-header py-2 justify-content-center border-0">
+                        <h5 class="modal-title m-0 text-center" id="modalEspecialidadLabel">
+                            <i class="bi bi-bookmark-plus-fill me-1"></i> Registrar Especialidad
+                        </h5>
+                    </div>
+
+                    <div class="modal-body px-4 py-3">
+                        <div class="row g-3">
+                            <div class="col-md-7">
+                                <label class="form-label">Especialidad</label>
+                                <input type="text" class="form-control" th:field="*{especialidad}" required />
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label">Monto</label>
+                                <input type="text" class="form-control" th:field="*{montoPorEspecialidad}" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer justify-content-center">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> Guardar
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

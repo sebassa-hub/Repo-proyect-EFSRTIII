@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layoutRecepcionista}">
+
+<head>
+	<title>Registrar Postulante</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="container mt-4 w-100 mx-auto" style="max-width: 60%;">
+			<div class="card shadow-sm rounded-4 border-0">
+				<div class="card-header bg-primary-subtle text-dark text-center rounded-top-4">
+					<h4 class="mb-0"><i class="bi bi-person-plus-fill"></i> Registrar Postulante</h4>
+				</div>
+				<div class="card-body py-4 px-4">
+					<form th:action="@{/postulante/guardar}" th:object="${postulante}" method="post">
+
+						<!-- Fila 1 -->
+						<div class="row g-3">
+							<div class="col-md-4">
+								<label class="form-label">Tipo de Documento</label>
+								<select th:field="*{tipoDocumento}" class="form-select">
+									<option value="DNI">DNI</option>
+									<option value="CE">CE</option>
+									<option value="PASAPORTE">PASAPORTE</option>
+								</select>
+							</div>
+							<div class="col-md-4">
+								<label class="form-label">Número de Documento</label>
+								<input type="text" th:field="*{numeroDocumento}" class="form-control" />
+							</div>
+							<div class="col-md-4">
+								<label class="form-label">Nacionalidad</label>
+								<input type="text" th:field="*{nacionalidad}" class="form-control" />
+							</div>
+
+						</div>
+
+						<!-- Fila 2 -->
+						<div class="row g-3 mt-2">
+
+							<div class="col-md-2">
+								<label class="form-label">Género</label>
+								<select th:field="*{genero}" class="form-select">
+									<option value="M">M</option>
+									<option value="F">F</option>
+								</select>
+							</div>
+							<div class="col-md-4">
+								<label class="form-label">Nombres</label>
+								<input type="text" th:field="*{nombres}" class="form-control" />
+							</div>
+							<div class="col-md-6">
+								<label class="form-label">Apellidos</label>
+								<input type="text" th:field="*{apellidos}" class="form-control" />
+							</div>
+
+
+						</div>
+
+						<!-- Fila 3 -->
+						<div class="row g-3 mt-2">
+
+							<div class="col-md-4">
+								<label class="form-label">Correo</label>
+								<input type="email" th:field="*{correo}" class="form-control" />
+							</div>
+
+							<div class="col-md-8">
+								<label class="form-label">Dirección</label>
+								<input type="text" th:field="*{direccion}" class="form-control" />
+							</div>
+						</div>
+
+
+						<!-- Fila 4 -->
+
+						<div class="row g-3 mt-2">
+							<div class="col-md-4">
+								<label class="form-label">Celular</label>
+								<input type="text" th:field="*{celular}" class="form-control" />
+							</div>
+							<div class="col-md-4">
+								<label class="form-label">Fecha de Nacimiento</label>
+								<input type="date" th:field="*{fechaNacimiento}" class="form-control" />
+							</div>
+						</div>
+
+						<!-- Botones -->
+						<div class="text-center mt-4">
+							<button type="submit" class="btn btn-outline-success me-2">
+								<i class="bi bi-check-circle"></i> Guardar
+							</button>
+							<a th:href="@{/postulante/listar}" class="btn btn-outline-secondary">
+								<i class="bi bi-x-circle"></i> Cancelar
+							</a>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Mensaje de exito -->
+	<div layout:fragment="scripts">
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+		<!-- ✅ Alerta de éxito -->
+		<script th:if="${exito != null}" th:inline="javascript">
+			let mensajeExito = /*[[${exito}]]*/ 'Registro exitoso';
+			Swal.fire({
+				icon: 'success',
+				title: '¡Éxito!',
+				text: mensajeExito,
+				showConfirmButton: false,
+				timer: 2000
+			});
+		</script>
+
+		<!-- ❌ Alerta de error -->
+		<script th:if="${error != null}" th:inline="javascript">
+			let mensajeError = /*[[${error}]]*/ 'Error al registrar';
+			Swal.fire({
+				icon: 'error',
+				title: '¡Error!',
+				text: mensajeError,
+				showConfirmButton: true
+			});
+		</script>
+	</div>
+</body>
+
+</html>

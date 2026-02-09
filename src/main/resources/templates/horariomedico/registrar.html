@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layoutSecretaria}">
+
+<head>
+	<title>Registrar Horario</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="container mt-4">
+			<h2 class="mb-4">Registrar Horario Médico</h2>
+
+			<form th:action="@{/horariomedico/registrar}" method="post">
+
+				<div class="mb-3">
+					<label class="form-label">Médico</label>
+					<select id="medicoSelect" class="form-select" name="idMedico" required>
+						<option value="">Seleccione</option>
+						<option th:each="medico : ${listaMedicos}" th:value="${medico.idMedico}"
+							th:text="${medico.nombres} + ' ' + ${medico.apellidos}"></option>
+					</select>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label">Día de la Semana</label>
+					<select class="form-select" name="diaSemana" required>
+						<option value="">Seleccione</option>
+						<option value="LUNES">Lunes</option>
+						<option value="MARTES">Martes</option>
+						<option value="MIERCOLES">Miércoles</option>
+						<option value="JUEVES">Jueves</option>
+						<option value="VIERNES">Viernes</option>
+						<option value="SABADO">Sábado</option>
+						<option value="DOMINGO">Domingo</option>
+					</select>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label">Hora de Inicio</label>
+					<input type="time" class="form-control" name="horaInicio" required>
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label">Hora de Fin</label>
+					<input type="time" class="form-control" name="horaFin" required>
+				</div>
+
+				<button type="submit" class="btn btn-primary">Registrar</button>
+			</form>
+
+			<div th:if="${error}" class="alert alert-danger mt-3" th:text="${error}"></div>
+			<div th:if="${param.success}" class="alert alert-success mt-3">Horario registrado exitosamente.</div>
+			<div class="mt-5">
+				<h4>Horarios Registrados</h4>
+
+				<div th:if="${#lists.isEmpty(listaHorarios)}">
+					<div class="alert alert-info text-center">No hay horarios registrados.</div>
+				</div>
+
+				<div th:if="${!#lists.isEmpty(listaHorarios)}">
+					<table id="tablaHorarios" class="table table-bordered">
+						<thead>
+							<tr>
+								<th>Médico</th>
+								<th>Día</th>
+								<th>Hora Inicio</th>
+								<th>Hora Fin</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="horario : ${listaHorarios}">
+								<td th:text="${horario.idMedico.nombres} + ' ' + ${horario.idMedico.apellidos}"></td>
+								<td th:text="${horario.diaSemana}"></td>
+								<td th:text="${#dates.format(horario.horaInicio, 'HH:mm')}"></td>
+								<td th:text="${#dates.format(horario.horaFin, 'HH:mm')}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+
+</html>

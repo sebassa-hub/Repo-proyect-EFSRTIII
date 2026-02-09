@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/layoutRRHH}">
+
+<head>
+    <title>Inicio RRHH</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <!-- Saludo personalizado -->
+        <h2 class="text-center mt-4" th:text="'Bienvenid@ ' + ${usuario.nombres} + ' ' + ${usuario.apellidos}">Bienvenido</h2>
+        <p class="text-center">Desde aquí puedes gestionar el personal y revisar información de recursos humanos.</p>
+
+        <!-- Botones de navegación RRHH -->
+        <div class="text-center mt-3">
+            <a th:href="@{/empleado/listar}" class="btn btn-primary">Gestionar Empleados</a>
+            <a th:href="@{/empleado/contratos}" class="btn btn-secondary">Contratos</a>
+            <a th:href="@{/empleado/reportes}" class="btn btn-info">Ver Reportes</a>
+        </div>
+
+        <!-- Mostrar si tiene rol RRHH -->
+        <div class="text-center mt-3" sec:authorize="hasRole('ROLE_RRHH')">
+            <span class="text-success">Acceso validado como RRHH</span>
+        </div>
+    </div>
+</body>
+
+</html>

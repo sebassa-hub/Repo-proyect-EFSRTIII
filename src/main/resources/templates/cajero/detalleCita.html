@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout/layoutCajero}">
+<head>
+    <title>Detalle de Cita Médica</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+<div layout:fragment="content" class="container mt-4">
+
+    <h3 class="mb-4">
+        <i class="bi bi-info-circle text-primary"></i> Detalle de la Cita Médica
+    </h3>
+
+    <div class="card p-4 shadow">
+        <h5><i class="bi bi-person-fill text-info"></i> Datos del Paciente</h5>
+        <p><strong>Nombre:</strong> <span th:text="${detalle.nombrePaciente}"></span></p>
+        <p><strong>Género:</strong> <span th:text="${detalle.generoPaciente}"></span></p>
+        <p><strong>Edad:</strong> <span th:text="${detalle.edadPaciente}"></span></p>
+        <p><strong>Celular:</strong> <span th:text="${detalle.celularPaciente}"></span></p>
+        <p><strong>Correo:</strong> <span th:text="${detalle.correoPaciente}"></span></p>
+
+        <hr>
+
+        <h5><i class="bi bi-person-badge-fill text-success"></i> Datos del Médico</h5>
+        <p><strong>Nombre:</strong> <span th:text="${detalle.nombreMedico}"></span></p>
+        <p><strong>Especialidad:</strong> <span th:text="${detalle.especialidad}"></span></p>
+        <p><strong>Monto:</strong> S/. <span th:text="${detalle.monto}"></span></p>
+
+        <hr>
+
+        <h5><i class="bi bi-calendar-event text-warning"></i> Datos de la Cita</h5>
+        <p><strong>Nro Cita:</strong> <span th:text="${detalle.nroCita}"></span></p>
+        <p><strong>Fecha:</strong> <span th:text="${detalle.fechaCita}"></span></p>
+        <p><strong>Hora:</strong> <span th:text="${detalle.horaCita}"></span></p>
+
+        <hr>
+
+        <div class="d-flex justify-content-end">
+            <a th:href="@{/cajero/citas/listar}" class="btn btn-secondary btn-sm">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

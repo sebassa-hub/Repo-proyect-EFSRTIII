@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout/layoutCajero}">
+
+<head>
+	<title>Inicio Cajero</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<h2 class="text-center mt-4" th:text="'Bienvenid@ ' + ${usuario.nombres} + ' ' + ${usuario.apellidos}">
+			Bienvenido</h2>
+		<p class="text-center">Desde aquí puedes gestionar pagos, comprobantes y ver reportes.</p>
+
+		<!--SECCION DE ACCESOS RAPIDOS-->
+		
+		<div class="text-center mt-3">
+			<a th:href="@{/cajero/citas/cdps}" class="btn btn-primary">Ver Comprobantes</a>
+
+		</div>
+
+		<!-- Ejemplo de visibilidad condicional -->
+		<div class="text-center mt-3" sec:authorize="hasRole('ROLE_Cajero')">
+			<span class="text-success">Tienes acceso completo como Cajero</span>
+		</div>
+	</div>
+</body>
+</html>
