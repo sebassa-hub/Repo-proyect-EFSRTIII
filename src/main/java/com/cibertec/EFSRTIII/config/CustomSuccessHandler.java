@@ -29,8 +29,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
             response.sendRedirect("/dashboard/cajero");
         } else if (rol.equals("ROLE_SECRETARIA") || rol.equals("SECRETARIA")) {
             response.sendRedirect("/dashboard/secretaria");
-        } else if (rol.equals("ROLE_RRHH") || rol.equals("RRHH")) {
-            response.sendRedirect("/dashboard/rrhh");
         } else {
             System.out.println("⚠️ Rol no reconocido: " + rol);
             response.sendRedirect("/login?error");
