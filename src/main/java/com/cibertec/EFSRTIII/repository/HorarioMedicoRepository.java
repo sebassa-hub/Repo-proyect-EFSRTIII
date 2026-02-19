@@ -1,6 +1,7 @@
 package com.cibertec.EFSRTIII.repository;
 
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,7 +30,7 @@ public interface HorarioMedicoRepository extends JpaRepository<HorarioMedico, In
 		List<HorarioMedico> buscarHorariosSolapados(
 		        @Param("idMedico") String idMedico,
 		        @Param("diaSemana") DiaSemana diaSemana,
-		        @Param("horaInicio") Time horaInicio,
-		        @Param("horaFin") Time horaFin
+		        @Param("horaInicio") LocalTime horaInicio,
+		        @Param("horaFin") LocalTime horaFin
 		);
 }

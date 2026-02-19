@@ -1,6 +1,7 @@
 package com.cibertec.EFSRTIII.service.impl;
 
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class HorarioMedicoServiceImpl implements HorarioMedicoService{
 	private MedicoRepository medicoRepository;
 	
 	@Override
-	public void registrarHorario(Medico idMedico, DiaSemana diaSemana, Time horaInicio, Time horaFin) {
+	public void registrarHorario(Medico idMedico, DiaSemana diaSemana, LocalTime horaInicio, LocalTime horaFin) {
 	    List<HorarioMedico> solapados = horarioMedicoRepository.buscarHorariosSolapados(
 	            idMedico.getIdMedico(), diaSemana, horaInicio, horaFin);
 
@@ -47,9 +48,22 @@ public class HorarioMedicoServiceImpl implements HorarioMedicoService{
 	}
 
 	@Override
-	public HorarioMedico registrarHorario(HorarioMedico horarioMedico) {
-		 return horarioMedicoRepository.save(horarioMedico);
+	public HorarioMedico registrarHorario(HorarioMedico horario) {
+
+	    List<HorarioMedico> solapados =
+	            horarioMedicoRepository.buscarHorariosSolapados(
+	                    horario.getIdMedico().getIdMedico(),
+	                    horario.getDiaSemana(),
+	                    horario.getHoraInicio(),
+	                    horario.getHoraFin());
+
+	    if (!solapados.isEmpty()) {
+	        throw new RuntimeException("Ya existe un horario que se cruza con este rango para ese médico.");
+	    }
+
+	    return horarioMedicoRepository.save(horario);
 	}
+
 
 	@Override
 	public HorarioMedico buscarHorarioPorMedicoYDia(String idMedico, DiaSemana diaSemana) {

@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Menú Secretaria</title>
+    <title>Menú Recepcion</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet"
@@ -20,7 +20,7 @@
 
 <nav class="navbar navbar-expand-lg bg-success navbar-dark shadow-sm">
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold" th:href="@{/secretaria/inicio}">
+        <a class="navbar-brand fw-bold" th:href="@{/dashboard/recepcionista}">
             <i class="bi bi-clipboard2-pulse-fill me-1"></i> Secretaria
         </a>
 
@@ -35,14 +35,14 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 <li class="nav-item">
-                    <a class="nav-link fw-semibold" th:href="@{/medico/listar}">
-                        <i class="bi bi-person-badge-fill me-1"></i> Médicos
+                    <a class="nav-link fw-semibold" th:href="@{/paciente/listar}">
+                        <i class="bi bi-person-badge-fill me-1"></i> Pacientes
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link fw-semibold" th:href="@{/especialidad/listar}">
-                        <i class="bi bi-journal-medical me-1"></i> Especialidades
+                    <a class="nav-link fw-semibold" th:href="@{/cita/registrar}">
+                        <i class="bi bi-journal-medical me-1"></i> cita medica
                     </a>
                 </li>
 

@@ -1,8 +1,9 @@
 package com.cibertec.EFSRTIII.entity;
 
 import java.io.Serializable;
-import java.sql.Time;
+import java.time.LocalTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,13 +38,15 @@ private static final long serialVersionUID = 1L;
 	@Column(name="diaSemana")
 	private DiaSemana diaSemana;
 	
+	@DateTimeFormat(pattern = "HH:mm")
 	@Column(name="horaInicio")
-	private Time horaInicio;
+	private LocalTime horaInicio;
 	
+	@DateTimeFormat(pattern = "HH:mm")
 	@Column(name="horaFin")
-	private Time horaFin;
+	private LocalTime horaFin;
 
-	public HorarioMedico(Medico idMedico, DiaSemana diaSemana, Time horaInicio, Time horaFin) {
+	public HorarioMedico(Medico idMedico, DiaSemana diaSemana, LocalTime horaInicio, LocalTime horaFin) {
 		super();
 		this.idMedico = idMedico;
 		this.diaSemana = diaSemana;
@@ -75,28 +78,23 @@ private static final long serialVersionUID = 1L;
 		this.diaSemana = diaSemana;
 	}
 
-	public Time getHoraInicio() {
+	public LocalTime getHoraInicio() {
 		return horaInicio;
 	}
 
-	public void setHoraInicio(Time horaInicio) {
+	public void setHoraInicio(LocalTime horaInicio) {
 		this.horaInicio = horaInicio;
 	}
 
-	public Time getHoraFin() {
+	public LocalTime getHoraFin() {
 		return horaFin;
 	}
 
-	public void setHoraFin(Time horaFin) {
+	public void setHoraFin(LocalTime horaFin) {
 		this.horaFin = horaFin;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	public HorarioMedico() {
-	}
-	
-	
 }
