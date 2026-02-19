@@ -3,6 +3,8 @@ package com.cibertec.EFSRTIII.controller;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,11 +77,17 @@ public class CitaMedicaController {
         HorarioMedico horario = horarioMedicoService.buscarHorarioPorMedicoYDia(idMedico, diaEnum);
         if (horario == null) return List.of();
 
-        List<Time> bloques = generarBloques30Min(horario.getHoraInicio().toString(), horario.getHoraFin().toString());
+        List<LocalTime> bloques = generarBloques30Min(
+        	    horario.getHoraInicio(),
+        	    horario.getHoraFin()
+        	);
 
-        List<Time> horasOcupadas = citaService.listarPorMedicoYFecha(idMedico, fechaCita).stream()
+
+        List<Time> horasOcupadas = citaService.listarPorMedicoYFecha(idMedico, fechaCita)
+                .stream()
                 .map(CitaMedica::getHoraCita)
                 .collect(Collectors.toList());
+
 
         return bloques.stream()
         	    .map(hora -> {
@@ -126,14 +134,19 @@ public class CitaMedicaController {
     }
 
     // ✅ Corregido: Auxiliar para generar bloques de 30 minutos
-    private List<Time> generarBloques30Min(String inicio, String fin) {
-        Time hInicio = Time.valueOf(inicio);
-        Time hFin = Time.valueOf(fin);
+    private List<LocalTime> generarBloques30Min(LocalTime inicio, LocalTime fin) {
 
-        long minutosTotales = (hFin.getTime() - hInicio.getTime()) / (1000 * 60);
+        List<LocalTime> bloques = new ArrayList<>();
 
-        return IntStream.range(0, (int) (minutosTotales / 30))
-                .mapToObj(i -> new Time(hInicio.getTime() + i * 30 * 60 * 1000))
-                .collect(Collectors.toList());
+        LocalTime actual = inicio;
+
+        while (actual.isBefore(fin)) {
+            bloques.add(actual);
+            actual = actual.plusMinutes(30);
+        }
+
+        return bloques;
     }
+
+
 }

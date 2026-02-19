@@ -169,12 +169,13 @@
 </div>
 
 </section>
+<div layout:fragment="scripts">
 
-<!-- SCRIPTS -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="/js/registrar-cita.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script th:src="@{/js/registrar-cita.js}"></script>
+
+</div>
 
 </body>
 </html>
