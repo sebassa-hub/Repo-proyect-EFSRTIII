@@ -54,10 +54,6 @@ private static final long serialVersionUID = 1L;
 		this.horaFin = horaFin;
 	}
 	
-	public HorarioMedico() {
-		
-	}
-
 	public Integer getIdHorario() {
 		return idHorario;
 	}

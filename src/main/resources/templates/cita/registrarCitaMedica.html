@@ -166,16 +166,107 @@
             </form>
         </div>
     </div>
-</div>
+	<hr class="my-5">
+		<div class="card mb-4 border-0 shadow-sm">
+		    <div class="card-body bg-light rounded">
+		        <form th:action="@{/cita/registrar}" method="get" class="row g-3 align-items-end">
+		            <div class="col-md-4">
+		                <label class="form-label fw-bold small"><i class="bi bi-person-search"></i> Filtrar por Paciente</label>
+		                <select name="fPaciente" class="form-select">
+		                    <option value="">Todos los pacientes</option>
+		                    <option th:each="p : ${listaPacientes}"
+		                            th:value="${p.idPaciente}"
+		                            th:text="${p.nombres} + ' ' + ${p.apellidos}">
+		                    </option>
+		                </select>
+		            </div>
+		            <div class="col-md-4">
+		                <label class="form-label fw-bold small"><i class="bi bi-filter-circle"></i> Filtrar por Estado</label>
+		                <select name="fEstado" class="form-select">
+		                    <option value="">Todos los estados</option>
+		                    <option th:each="est : ${estados}"
+		                            th:value="${est}"
+		                            th:text="${est}">
+		                    </option>
+		                </select>
+		            </div>
+		            <div class="col-md-4 d-flex gap-2">
+		                <button type="submit" class="btn btn-primary flex-grow-1">
+		                    <i class="bi bi-search"></i> Filtrar
+		                </button>
+		                <a th:href="@{/cita/registrar}" class="btn btn-secondary">
+		                    <i class="bi bi-arrow-clockwise"></i> Limpiar
+		                </a>
+		            </div>
+		        </form>
+		    </div>
+		</div>
+		<h4 class="mb-4 text-center fw-bold" style="color: #0d6efd;">
+		    <i class="bi bi-card-list"></i> Lista de Citas Médicas
+		</h4>
+		<div id="contenedorTabla">
+			<div class="table-responsive shadow-sm rounded bg-white p-3">
+					    <table class="table table-hover align-middle border text-center">
+					        <thead class="table-success align-middle">
+					            <tr>
+					                <th>Nro</th>
+					                <th>Paciente</th>
+					                <th>Médico</th>
+					                <th>Fecha</th>
+					                <th>Hora</th>
+					                <th>Estado</th>
+					                <th>Acciones</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+					            <tr th:each="c : ${listaCitas}">
+					                <td class="fw-bold text-secondary" th:text="${c.nroCita}"></td>
+					                <td th:text="${c.paciente.nombres}"></td>
+					                <td th:text="${c.medico.nombres}"></td>
+					                <td th:text="${#dates.format(c.fechaCita, 'dd/MM/yyyy')}"></td>
+					                <td th:text="${c.horaCita}"></td>
+					                <td>
+				                        <span class="badge rounded-pill px-3 py-2" 
+					                          th:classappend="${c.estado.name() == 'pagado' ? 'bg-success' : 
+					                                         (c.estado.name() == 'cancelado' ? 'bg-danger' : 'bg-warning text-dark')}"
+					                          th:text="${c.estado}">
+					                    </span>
+					                </td>
+					                <td>
+					                    <div class="d-flex justify-content-center gap-2 align-items-center">
+					                        
+				                            <form th:action="@{/cita/cambiar-estado}" method="post" class="d-flex m-0">
+					                            <input type="hidden" name="nroCita" th:value="${c.nroCita}" />
+					                            
+				                                <select name="nuevoEstado" class="form-select form-select-sm border-secondary me-1" style="width: 140px;" required 
+					                                    th:disabled="${c.estado.name() == 'pagado'}">
+					                                <option value="" disabled selected>Cambiar a...</option>
+					                                <option value="pendiente_pago" th:if="${c.estado.name() != 'pendiente_pago'}">Pendiente</option>
+					                                <option value="cancelado" th:if="${c.estado.name() != 'cancelado'}">Cancelar</option>
+					                            </select>
+					                            
+					                            <button type="submit" class="btn btn-sm btn-primary" title="Guardar Estado" th:disabled="${c.estado.name() == 'pagado'}">
+					                                <i class="bi bi-check2-circle"></i>
+					                            </button>
+					                        </form>
 
+					                        <a th:href="@{'/cita/generar-pdf/' + ${c.nroCita}}" 
+					                           target="_blank" 
+					                           class="btn btn-sm btn-outline-danger d-flex align-items-center"
+				                               title="Descargar Ticket">
+					                            <i class="bi bi-filetype-pdf me-1"></i> PDF
+					                        </a>
+					                    </div>
+					                </td>
+					            </tr>
+					        </tbody>
+					    </table>
+					</div>
+		</div>
 </section>
 <div layout:fragment="scripts">
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
     <script th:src="@{/js/registrar-cita.js}"></script>
-
 </div>
-
 </body>
 </html>

@@ -1,7 +1,6 @@
 package com.cibertec.EFSRTIII.controller;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -9,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import jakarta.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +25,7 @@ import com.cibertec.EFSRTIII.service.EspecialidadService;
 import com.cibertec.EFSRTIII.service.HorarioMedicoService;
 import com.cibertec.EFSRTIII.service.MedicoService;
 import com.cibertec.EFSRTIII.service.PacienteService;
-
+import com.cibertec.EFSRTIII.service.impl.CitaPdfService;
 
 @Controller
 @RequestMapping("/cita")
@@ -46,12 +45,38 @@ public class CitaMedicaController {
 
     @Autowired
     private EspecialidadService especialidadService;
+    
+    @Autowired
+    private CitaPdfService pdfService;
 
     // Mostrar formulario de registro de cita
     @GetMapping("/registrar")
-    public String mostrarFormulario(Model model) {
+    public String mostrarFormulario(
+            @RequestParam(name = "fPaciente", required = false) String fPaciente,
+            @RequestParam(name = "fEstado", required = false) EstadoCita fEstado,
+            Model model,
+            HttpServletRequest request) {
+     
+        List<CitaMedica> lista;
+        
+        if (fPaciente != null && !fPaciente.isEmpty()) {
+            lista = citaService.buscarPorPaciente(fPaciente);
+        } else if (fEstado != null) {
+            lista = citaService.buscarPorEstado(fEstado);
+        } else {
+            lista = citaService.listarCitasOrdenadas();
+        }
+
         model.addAttribute("listaPacientes", pacienteService.listarPacientes());
         model.addAttribute("listaEspecialidades", especialidadService.listarEspecialidad());
+        model.addAttribute("listaCitas", lista);
+        
+        model.addAttribute("estados", EstadoCita.values());
+        
+        if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+            return "cita/registrarCitaMedica :: #contenedorTabla";
+        }
+        
         return "cita/registrarCitaMedica";
     }
 
@@ -83,7 +108,7 @@ public class CitaMedicaController {
         	);
 
 
-        List<Time> horasOcupadas = citaService.listarPorMedicoYFecha(idMedico, fechaCita)
+        List<LocalTime> horasOcupadas = citaService.listarPorMedicoYFecha(idMedico, fechaCita)
                 .stream()
                 .map(CitaMedica::getHoraCita)
                 .collect(Collectors.toList());
@@ -113,7 +138,7 @@ public class CitaMedicaController {
             @RequestParam String idPaciente,
             @RequestParam String idMedico,
             @RequestParam Date fechaCita,
-            @RequestParam Time horaCita,
+            @RequestParam LocalTime horaCita,
             Model model
     ) {
         if (citaService.existeCita(idMedico, fechaCita, horaCita)) {
@@ -146,6 +171,30 @@ public class CitaMedicaController {
         }
 
         return bloques;
+    }
+    
+ // 1. Cambiar estado de la cita
+    @PostMapping("/cambiar-estado")
+    public String cambiarEstadoCita(
+            @RequestParam String nroCita, 
+            @RequestParam EstadoCita nuevoEstado) {
+        
+        citaService.actualizarEstadoCita(nroCita, nuevoEstado);
+        return "redirect:/cita/registrar?estadoActualizado";
+    }
+
+    @GetMapping("/generar-pdf/{nroCita}")
+    public void descargarTicket(@PathVariable String nroCita, jakarta.servlet.http.HttpServletResponse response) throws Exception {
+        CitaMedica cita = citaService.obtenerPorId(nroCita);
+        
+        if (cita != null) {
+        	byte[] pdfBytes = pdfService.generarTicketCita(cita);
+            
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=Ticket_" + nroCita + ".pdf");
+            response.getOutputStream().write(pdfBytes);
+            response.getOutputStream().flush();
+        }
     }
 
 

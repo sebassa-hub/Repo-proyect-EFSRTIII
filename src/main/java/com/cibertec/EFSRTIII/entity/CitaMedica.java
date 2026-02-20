@@ -1,8 +1,8 @@
 package com.cibertec.EFSRTIII.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Time;
+import java.util.Date;
+import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,12 +11,14 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "cita_medica")
 public class CitaMedica implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -35,7 +37,7 @@ public class CitaMedica implements Serializable {
     private Date fechaCita;
 
     @Column(name = "horaCita", nullable = false)
-    private Time horaCita;
+    private LocalTime horaCita;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", nullable = false)
@@ -77,11 +79,11 @@ public class CitaMedica implements Serializable {
 		this.fechaCita = fechaCita;
 	}
 
-	public Time getHoraCita() {
+	public LocalTime getHoraCita() {
 		return horaCita;
 	}
 
-	public void setHoraCita(Time horaCita) {
+	public void setHoraCita(LocalTime horaCita) {
 		this.horaCita = horaCita;
 	}
 
@@ -96,6 +98,4 @@ public class CitaMedica implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-    
-    
 }

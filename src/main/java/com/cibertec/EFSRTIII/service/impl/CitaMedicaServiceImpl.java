@@ -1,7 +1,7 @@
 package com.cibertec.EFSRTIII.service.impl;
 
 import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
     }
 
     @Override
-    public boolean existeCita(String idMedico, Date fechaCita, Time horaCita) {
+    public boolean existeCita(String idMedico, Date fechaCita, LocalTime horaCita) {
         return citaRepo.existsByMedico_IdMedicoAndFechaCitaAndHoraCita(idMedico, fechaCita, horaCita);
     }
 
@@ -43,9 +43,6 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
         int numero = Integer.parseInt(ultimo.substring(3)) + 1;
         return String.format("CIT%03d", numero); // Resultado: "CIT006"
     }
-    
-
-    //PARTE DE CAJERO - NO TOCAR NADA
     
 	@Override
 	public List<CitaMedica> listarTodas() {
@@ -75,7 +72,7 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
 
 	@Override
 	public void eliminarCita(String nroCita) {
-		// TODO Auto-generated method stub
+		citaRepo.deleteById(nroCita);
 		
 	}
 
@@ -87,28 +84,9 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
 	}
 
 	@Override
-	public CitaMedica guardarCita(CitaMedica cita) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public CitaMedica obtenerPorId(String nroCita) {
-		// TODO Auto-generated method stub
-		return null;
+		 return citaRepo.findById(nroCita).orElse(null);
 	}
-	
-	//metodo para el GENERAR CDP
-	
-	public CitaMedica obtenerCitaConDetalles(String nroCita) {
-		
-		return citaRepo.findById(nroCita).orElse(null);
-		
-	}
-
-    
-	
-	//ACTUALIZAR ESTADO CITA
 	
 	@Override
 	public void actualizarEstadoCita(String nroCita, EstadoCita nuevoEstado) {
@@ -121,7 +99,4 @@ public class CitaMedicaServiceImpl implements CitaMedicaService {
 	        throw new RuntimeException("No se encontró la cita con el Nro: " + nroCita);
 	    }
 	}
-
-
-    
 }

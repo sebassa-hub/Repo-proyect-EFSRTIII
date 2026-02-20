@@ -25,8 +25,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         // Redirigir según el rol (Spring Security agrega ROLE_ automáticamente)
         if (rol.equals("ROLE_RECEPCIONISTA") || rol.equals("RECEPCIONISTA")) {
             response.sendRedirect("/dashboard/recepcionista");
-        } else if (rol.equals("ROLE_CAJERO") || rol.equals("CAJERO")) {
-            response.sendRedirect("/dashboard/cajero");
         } else if (rol.equals("ROLE_SECRETARIA") || rol.equals("SECRETARIA")) {
             response.sendRedirect("/dashboard/secretaria");
         } else {
