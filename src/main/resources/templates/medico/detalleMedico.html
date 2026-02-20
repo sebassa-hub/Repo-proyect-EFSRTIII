@@ -29,7 +29,7 @@
                 <div class="row mb-3">
                     <div class="col-md-4"><strong>Género:</strong> <span th:text="${medico.genero}"></span></div>
                     <div class="col-md-4"><strong>Edad:</strong> <span th:text="${medico.edad}"></span></div>
-                    <div class="col-md-4"><strong>Fecha de Nacimiento:</strong> <span th:text="${#dates.format(medico.fechaNacimiento, 'dd/MM/yyyy')}"></span></div>
+                    <div class="col-md-4"><strong>Fecha de Nacimiento:</strong> <span th:text="${#temporals.format(medico.fechaNacimiento, 'dd/MM/yyyy')}"></span></div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-4"><strong>Nacionalidad:</strong> <span th:text="${medico.nacionalidad}"></span></div>
@@ -60,7 +60,7 @@
                 <h5 class="text-secondary border-bottom pb-2 mb-3 mt-4"><i class="bi bi-clock-history"></i> Registro</h5>
                 <div class="row mb-3">
                     <div class="col-md-4"><strong>Fecha de Registro:</strong>
-                        <span th:text="${#dates.format(medico.fechaRegistro, 'dd/MM/yyyy')}"></span>
+                        <span th:text="${#temporals.format(medico.fechaRegistro, 'dd/MM/yyyy HH:mm:ss')}"></span>
                     </div>
                 </div>
 
